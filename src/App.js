@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-const API_URL = process.env.API_URL || "http://localhost:3000/";
+const REACT_APP_API_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:3000/";
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +12,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch(API_URL)
+    let params = new URL(window.location).searchParams;
+    let user_id = params.get("user");
+    console.log(user_id);
+    fetch(`${REACT_APP_API_URL}/${user_id}`)
       .then(res => res.json())
       .then(
         result => {
