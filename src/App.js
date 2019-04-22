@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Linkify from "linkifyjs/react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -48,7 +49,9 @@ class App extends Component {
         <tr key={item.id}>
           <td>{item.prefix}</td>
           <td>{item.datetime}</td>
-          <td>{item.message}</td>
+          <td>
+            <Linkify>{item.message}</Linkify>
+          </td>
         </tr>
       ));
       console.log(listItems);
