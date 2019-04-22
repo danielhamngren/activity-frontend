@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
+const API_URL = process.env.API_URL || "http://localhost:3000/";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:3000/user/161213348")
+    fetch(API_URL)
       .then(res => res.json())
       .then(
         result => {
