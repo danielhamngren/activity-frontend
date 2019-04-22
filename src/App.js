@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Linkify from "linkifyjs/react";
-import logo from "./logo.svg";
+import MaterialTable from "material-table";
 import "./App.css";
 
 const REACT_APP_API_URL =
@@ -23,9 +23,13 @@ class App extends Component {
           result => {
             console.log(result);
 
+            let items = result.map(item => {
+              item.date = item.datetime.split("T")[0];
+              return item;
+            });
             this.setState({
               isLoaded: true,
-              items: result
+              items: items
             });
           },
           // Note: it's important to handle errors here
@@ -45,36 +49,31 @@ class App extends Component {
   render() {
     let listItems;
     if (this.state.isLoaded && this.state.items) {
-      listItems = this.state.items.map(item => (
-        <tr key={item.id}>
-          <td>{item.prefix}</td>
-          <td>{item.datetime}</td>
-          <td>
-            <Linkify>{item.message}</Linkify>
-          </td>
-        </tr>
-      ));
-      console.log(listItems);
+      listItems = (
+        <MaterialTable
+          data={this.state.items}
+          columns={[
+            { field: "prefix" },
+            { field: "date" },
+            { field: "message" }
+          ]}
+        />
+      );
+      // listItems = this.state.items.map(item => (
+      //   <tr key={item.id}>
+      //     <td>{item.prefix}</td>
+      //     <td>{item.datetime}</td>
+      //     <td>
+      //       <Linkify>{item.message}</Linkify>
+      //     </td>
+      //   </tr>
+      // ));
+      // console.log(listItems);
     } else {
       console.log(this.state);
     }
 
-    return (
-      <div className="App">
-        <header className="App-header">
-          <table>
-            <tbody>
-              <tr>
-                <th>Prefix</th>
-                <th>Datetime</th>
-                <th>Message</th>
-              </tr>
-              {listItems}
-            </tbody>
-          </table>
-        </header>
-      </div>
-    );
+    return <div className="App">{listItems}</div>;
   }
 }
 
