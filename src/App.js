@@ -15,28 +15,30 @@ class App extends Component {
     let params = new URL(window.location).searchParams;
     let user_id = params.get("user");
     console.log(user_id);
-    fetch(`${REACT_APP_API_URL}/${user_id}`)
-      .then(res => res.json())
-      .then(
-        result => {
-          console.log(result);
+    if (user_id) {
+      fetch(`${REACT_APP_API_URL}/${user_id}`)
+        .then(res => res.json())
+        .then(
+          result => {
+            console.log(result);
 
-          this.setState({
-            isLoaded: true,
-            items: result
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        error => {
-          console.log(error);
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      );
+            this.setState({
+              isLoaded: true,
+              items: result
+            });
+          },
+          // Note: it's important to handle errors here
+          // instead of a catch() block so that we don't swallow
+          // exceptions from actual bugs in components.
+          error => {
+            console.log(error);
+            this.setState({
+              isLoaded: true,
+              error
+            });
+          }
+        );
+    }
   }
 
   render() {
